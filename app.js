@@ -50,6 +50,12 @@ app.use("/artist/mv", require("./router/artists_mv"));
 // 获取 banner
 app.use("/banner", require("./router/banner"));
 
+// 利用爬虫抓取banner数据 如果用户输入了频率
+const frequency = process.env.phantom || false;
+if (frequency) {
+  app.use("/phantomBanner", require("./router/phantomBanner"));
+}
+
 app.use("/check/music", require("./router/check_music"));
 
 app.use("/comment/music", require("./router/comment_music"));
