@@ -1,5 +1,3 @@
-import { error } from "util";
-
 const express = require("express"),
   router = express(),
   phantom = require("phantom"),
@@ -30,13 +28,15 @@ async function getBanner() {
     function() {
       page.property("frameContent").then(async res => {
         const reg = /window.Gbanners\s*=\n(\[[^]*\]);\s*\n<\/script>/i;
-        const banner = reg.exec(res)[1];
-        await writeFile("banner.json", banner);
+        let banner = reg.exec(res)[1];
+        banner = { code: 200, banners: eval(banner) };
+        await writeFile("banner.json", JSON.stringify(banner));
+        console.log("phantom caught !");
         await instance.exit();
       });
     },
     err => {
-      console.log("phantom get error");
+      console.log("phantom error");
       instance.exit();
     }
   );
