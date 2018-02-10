@@ -54,6 +54,7 @@ function createWebAPIRequest(
       Referer: "http://music.163.com",
       Host: "music.163.com",
       Cookie: cookie,
+      "X-Real-IP": "101.68.245.76",
       "User-Agent": randomUserAgent()
     },
     body: querystring.stringify({
