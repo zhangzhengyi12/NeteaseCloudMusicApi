@@ -22,7 +22,6 @@ const readFile = (path, opts = "utf8") =>
 async function getBanner() {
   const instance = await phantom.create();
   const page = await instance.createPage();
-
   const status = await page.open("http://music.163.com/");
   await page.switchToFrame("contentFrame").then(
     function() {
@@ -41,9 +40,9 @@ async function getBanner() {
     }
   );
 }
-
-const frequency = process.env.phantom || false;
-frequency && getBanner() && setInterval(getBanner, frequency);
+const frequency = 86400000;
+getBanner();
+setInterval(getBanner, frequency);
 
 router.get("/", (req, res) => {
   readFile("banner.json").then(

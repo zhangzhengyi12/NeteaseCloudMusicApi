@@ -50,9 +50,8 @@ app.use("/artist/mv", require("./router/artists_mv"));
 // 获取 banner
 app.use("/banner", require("./router/banner"));
 
-// 利用爬虫抓取banner数据 如果用户输入了频率
+// 利用爬虫抓取banner数据
 // 自动运行 默认时间为1天
-const frequency = 86400000;
 app.use("/phantomBanner", require("./router/phantomBanner"));
 
 app.use("/check/music", require("./router/check_music"));
