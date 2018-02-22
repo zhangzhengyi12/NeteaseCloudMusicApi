@@ -3,7 +3,11 @@ const apicache = require("apicache");
 const path = require("path");
 
 const app = express();
-let cache = apicache.middleware;
+let cache = apicache.options({
+  headers: {
+    headerBlacklist: ["Access-Control-Allow-Origin"]
+  }
+}).middleware;
 
 // 跨域设置
 app.all("*", function(req, res, next) {
