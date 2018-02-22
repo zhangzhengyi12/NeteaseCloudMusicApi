@@ -4,8 +4,8 @@ const path = require("path");
 
 const app = express();
 let cache = apicache.options({
-  headers: {
-    headerBlacklist: ["Access-Control-Allow-Origin"]
+  appendKey: req => {
+    console.log(req);
   }
 }).middleware;
 
