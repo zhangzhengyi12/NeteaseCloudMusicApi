@@ -3,18 +3,14 @@ const apicache = require("apicache");
 const path = require("path");
 
 const app = express();
-let cache = apicache.options({
-  appendKey: req => {
-    console.log(req);
-  }
-}).middleware;
+let cache = apicache.middleware;
 
 // 跨域设置
 app.all("*", function(req, res, next) {
   if (req.path !== "/" && !req.path.includes(".")) {
     res.header("Access-Control-Allow-Credentials", true);
     // 这里获取 origin 请求头 而不是用 *
-    res.header("Access-Control-Allow-Origin", req.headers["origin"] || "*");
+    res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.header("Content-Type", "application/json;charset=utf-8");
@@ -54,8 +50,9 @@ app.use("/artist/mv", require("./router/artists_mv"));
 // 获取 banner
 app.use("/banner", require("./router/banner"));
 
-// 利用爬虫抓取banner数据
+// 利用爬虫抓取banner数据 如果用户输入了频率
 // 自动运行 默认时间为1天
+const frequency = 86400000;
 app.use("/phantomBanner", require("./router/phantomBanner"));
 
 app.use("/check/music", require("./router/check_music"));
@@ -260,5 +257,11 @@ app.use("/user/follows", require("./router/user_follows"));
 app.use("/user/subcount", require("./router/user_subcount"));
 
 app.use("/user/record", require("./router/user_playrecord"));
+
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`server running @ http://localhost:${port}`);
+});
 
 module.exports = app;
