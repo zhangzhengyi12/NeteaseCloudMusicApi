@@ -10,7 +10,10 @@ app.all("*", function(req, res, next) {
   if (req.path !== "/" && !req.path.includes(".")) {
     res.header("Access-Control-Allow-Credentials", true);
     // 这里获取 origin 请求头 而不是用 *
-    res.header("Access-Control-Allow-Origin", "*");
+    let origin = res.headers.origin;
+    if (origin === "http://yinode.tech" || origin === "https://yinode.tech") {
+      res.header("Access-Control-Allow-Origin", origin);
+    }
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     res.header("Content-Type", "application/json;charset=utf-8");
